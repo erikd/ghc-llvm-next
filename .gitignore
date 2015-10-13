@@ -1,0 +1,6 @@
+.pc/
+ghc-src/
+llvm-build/
+llvm-install/
+llvm-src/
+stamp/
