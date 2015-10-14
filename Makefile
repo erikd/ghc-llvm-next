@@ -44,7 +44,7 @@ stamp/ghc-update : ghc-src/configure.ac
 	quilt push -a
 	touch $@
 
-ghc-src/configure.ac :
+ghc-src/configure.ac : stamp/llvm-install
 	git clone git://git.haskell.org/ghc.git ghc-src
 	(cd ghc-src && git submodule update --init --recursive --rebase)
 
