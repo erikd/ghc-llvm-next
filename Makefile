@@ -60,7 +60,7 @@ stamp/llvm-build : stamp/llvm-configure
 	touch $@
 
 stamp/llvm-configure : llvm-src/CMakeLists.txt
-	(cd llvm-build && ../llvm-src/configure --prefix=/home/erikd/Git/ghc-llvm-head/llvm-install)
+	(cd llvm-build && ../llvm-src/configure --prefix=$(top_dir)/llvm-install)
 	touch $@
 
 stamp/llvm-update : llvm-src/CMakeLists.txt
