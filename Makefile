@@ -69,4 +69,5 @@ stamp/llvm-update : llvm-src/CMakeLists.txt
 	touch $@
 
 llvm-src/CMakeLists.txt :
+	mkdir -p stamp
 	git clone http://llvm.org/git/llvm.git llvm-src
