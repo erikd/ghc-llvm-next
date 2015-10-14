@@ -35,7 +35,7 @@ stamp/ghc-configure : stamp/ghc-update
 			--with-opt=$(top_dir)/llvm-install/bin/opt )
 	touch $@
 
-stamp/ghc-update : ghc-src/configure.ac
+stamp/ghc-update : ghc-src/configure.ac stamp/dirs
 	if test $(shell quilt applied | grep -c ^patches/) -ge 1 ; then \
 		quilt pop -a ; \
 		fi
@@ -59,11 +59,11 @@ stamp/llvm-build : stamp/llvm-configure
 	(cd llvm-build && make -j$(cpus))
 	touch $@
 
-stamp/llvm-configure : llvm-src/CMakeLists.txt
+stamp/llvm-configure : llvm-src/CMakeLists.txt stamp/dirs
 	(cd llvm-build && ../llvm-src/configure --prefix=$(top_dir)/llvm-install)
 	touch $@
 
-stamp/llvm-update : llvm-src/CMakeLists.txt
+stamp/llvm-update : llvm-src/CMakeLists.txt stamp/dirs
 	(cd llvm-src && git pull --rebase)
 	rm -f stamp/llvm-*
 	touch $@
@@ -71,3 +71,8 @@ stamp/llvm-update : llvm-src/CMakeLists.txt
 llvm-src/CMakeLists.txt :
 	mkdir -p stamp
 	git clone http://llvm.org/git/llvm.git llvm-src
+
+stamp/dirs :
+	mkdir -p stamp
+	mkdir -p llvm-build
+	touch $@
