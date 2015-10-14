@@ -10,24 +10,30 @@ the HEAD of LLVM.
 
 ## Why
 
-GHC has a LLVM backend and uses the LLVM tools `llc` and `opt`. For some
-architectures (Arm and AArch64/Arm64/Armv8-a) the LLVM backend is the primary
-backend.
+GHC has an LLVM backend and for some architectures (Arm and
+AArch64/Arm64/Armv8-a) the LLVM backend is the primary backend. The GHC
+developers therefore have a keen interest in tracking between-release changes
+in LLVM.
 
-To interoperate with the LVM backend, GHC generates the text version (there is
-also a binary format) which seems to change from release to release. Obviously,
-waiting for the actual LLVM release to update GHC is non-optimal so I (Erik de
-Castro Lopo) decided to set up this project to allow all GHC developers to
-keep an eye on upstream LLVM developments that may affect GHC.
+GHC use of LLVM is made somewhat more complicated by the fact that GHC generates
+the text version (there is also a binary format) of LLVM Intermediate
+Representation (IR) language which it then passes through the LLVM `llc` and
+`opt` tools to generate native assembler.
+
+Unfortunately, the LLVM developers do not guaranteed that the IR language will
+remain unchanged across major released. It should also be obvious that the GHC
+developers should not wait for the actual release of a new LLVM version before
+testing it. This project has therefore been set up to make test the development
+version of GHC against the development version of LLVM.
 
 ## How to use it
 
-Currently this only builds on Linux (patches accepted to fi that). You will also
+Currently this only builds on Linux (patches accepted to fix that). You will also
 need the following tool which should be available in most Linux distros:
 
 * ghc (a version that can build git HEAD, currently 7.8)
-* gcc and g++ to build LLVM
-* GNU make
+* The standard build tools needed to build ghc.
+* gcc/g++ or clang/clang++ to build LLVM
 * quilt
 * git
 
