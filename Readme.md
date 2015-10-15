@@ -42,3 +42,9 @@ do is:
 
     make
 
+To pull new changes from both GHC and LLVM git just:
+
+    make update
+
+which automatically removes some of the stamp files to that running `make`
+again will run a new build and test cycle.
