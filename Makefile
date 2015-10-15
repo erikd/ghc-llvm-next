@@ -28,14 +28,14 @@ stamp/ghc-build : stamp/ghc-configure
 	(cd ghc-src && make -j$(cpus))
 	touch $@
 
-stamp/ghc-configure : stamp/ghc-update
+stamp/ghc-configure : stamp/ghc-update stamp/llvm-install
 	sed s'/#BuildFlavour = quick-llvm/BuildFlavour = quick-llvm/' ghc-src/mk/build.mk.sample > ghc-src/mk/build.mk
 	(cd ghc-src && perl boot && ./configure \
 			--with-llc=$(top_dir)/llvm-install/bin/llc \
 			--with-opt=$(top_dir)/llvm-install/bin/opt )
 	touch $@
 
-stamp/ghc-update : ghc-src/configure.ac stamp/dirs
+stamp/ghc-update : ghc-src/configure.ac
 	if test $(shell quilt applied | grep -c ^patches/) -ge 1 ; then \
 		quilt pop -a ; \
 		fi
@@ -44,7 +44,8 @@ stamp/ghc-update : ghc-src/configure.ac stamp/dirs
 	quilt push -a
 	touch $@
 
-ghc-src/configure.ac : stamp/llvm-install
+ghc-src/configure.ac :
+	mkdir -p stamp
 	git clone git://git.haskell.org/ghc.git ghc-src
 	(cd ghc-src && git submodule update --init --recursive --rebase)
 
@@ -59,11 +60,11 @@ stamp/llvm-build : stamp/llvm-configure
 	(cd llvm-build && make -j$(cpus))
 	touch $@
 
-stamp/llvm-configure : llvm-src/CMakeLists.txt stamp/dirs
+stamp/llvm-configure : stamp/llvm-update
 	(cd llvm-build && ../llvm-src/configure --prefix=$(top_dir)/llvm-install)
 	touch $@
 
-stamp/llvm-update : llvm-src/CMakeLists.txt stamp/dirs
+stamp/llvm-update : llvm-src/CMakeLists.txt
 	(cd llvm-src && git pull --rebase)
 	rm -f stamp/llvm-*
 	touch $@
@@ -71,8 +72,3 @@ stamp/llvm-update : llvm-src/CMakeLists.txt stamp/dirs
 llvm-src/CMakeLists.txt :
 	mkdir -p stamp
 	git clone http://llvm.org/git/llvm.git llvm-src
-
-stamp/dirs :
-	mkdir -p stamp
-	mkdir -p llvm-build
-	touch $@
