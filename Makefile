@@ -8,7 +8,7 @@ all : stamp/ghc-test
 
 
 update : llvm-src/CMakeLists.txt ghc-src/configure.ac
-	rm -f stamp/*-update
+	make clean
 	make stamp/llvm-update stamp/ghc-update
 
 
