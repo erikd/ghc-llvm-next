@@ -61,6 +61,7 @@ stamp/llvm-build : stamp/llvm-configure
 	touch $@
 
 stamp/llvm-configure : stamp/llvm-update
+	mkdir -p llvm-build
 	(cd llvm-build && ../llvm-src/configure --prefix=$(top_dir)/llvm-install)
 	touch $@
 
