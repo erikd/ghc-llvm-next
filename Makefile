@@ -21,7 +21,7 @@ clean :
 # GHC
 
 stamp/ghc-test : stamp/ghc-build
-	(cd ghc-src && THREADS=$(cpus) make test)
+	(cd ghc-src && SKIP_PERF_TESTS=YES THREADS=$(cpus) make test)
 	touch $@
 
 stamp/ghc-build : stamp/ghc-configure
