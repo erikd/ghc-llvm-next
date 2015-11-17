@@ -17,6 +17,10 @@ clean :
 	rm -rf llvm-build/*
 	rm -f stamp/*
 
+git-gc :
+	(cd ghc-src/ && git gc --aggressive)
+	(cd llvm-src/ && git gc --aggressive)
+
 #-------------------------------------------------------------------------------
 # GHC
 
