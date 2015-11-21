@@ -66,7 +66,7 @@ stamp/llvm-build : stamp/llvm-configure
 
 stamp/llvm-configure : stamp/llvm-update
 	mkdir -p llvm-build
-	(cd llvm-build && ../llvm-src/configure --prefix=$(top_dir)/llvm-install)
+	(cd llvm-build && cmake -G"Unix Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=$(top_dir)/llvm-install ../llvm-src/)
 	touch $@
 
 stamp/llvm-update : llvm-src/CMakeLists.txt
