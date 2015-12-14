@@ -1,6 +1,6 @@
 
 top_dir = $(shell pwd)
-cpus = $(shell grep ^processor /proc/cpuinfo | wc -l)
+num_cpus ?= $(shell grep ^processor /proc/cpuinfo | wc -l)
 
 
 
@@ -25,11 +25,11 @@ git-gc :
 # GHC
 
 stamp/ghc-test : stamp/ghc-build
-	(cd ghc-src && SKIP_PERF_TESTS=YES THREADS=$(cpus) make test)
+	(cd ghc-src && SKIP_PERF_TESTS=YES THREADS=$(num_cpus) make test)
 	touch $@
 
 stamp/ghc-build : stamp/ghc-configure
-	(cd ghc-src && make -j$(cpus))
+	(cd ghc-src && make -j$(num_cpus))
 	touch $@
 
 stamp/ghc-configure : stamp/ghc-update stamp/llvm-install
@@ -61,7 +61,7 @@ stamp/llvm-install : stamp/llvm-build
 	touch $@
 
 stamp/llvm-build : stamp/llvm-configure
-	(cd llvm-build && make -j$(cpus))
+	(cd llvm-build && make -j$(num_cpus))
 	touch $@
 
 stamp/llvm-configure : stamp/llvm-update
