@@ -1,7 +1,7 @@
-Index: ghc-llvm-head/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
+Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
 ===================================================================
---- ghc-llvm-head.orig/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
-+++ ghc-llvm-head/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
+--- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
++++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
 @@ -73,7 +73,7 @@ ppLlvmGlobal (LMGlobal var@(LMGlobalVar
              Nothing -> empty
  
@@ -11,10 +11,10 @@ Index: ghc-llvm-head/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
              Nothing   -> ppr (pLower $ getVarType var)
  
          -- Position of linkage is different for aliases.
-Index: ghc-llvm-head/ghc-src/compiler/llvmGen/Llvm/Types.hs
+Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
 ===================================================================
---- ghc-llvm-head.orig/ghc-src/compiler/llvmGen/Llvm/Types.hs
-+++ ghc-llvm-head/ghc-src/compiler/llvmGen/Llvm/Types.hs
+--- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/Types.hs
++++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
 @@ -175,6 +175,13 @@ instance Outputable LlvmStatic where
    ppr (LMSub s1 s2)
        = pprStaticArith s1 s2 (sLit "sub") (sLit "fsub") "LMSub"
