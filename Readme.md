@@ -28,10 +28,10 @@ version of GHC against the development version of LLVM.
 
 ## How to use it
 
-Currently this only builds on Linux (patches accepted to fix that). You will also
-need the following tool which should be available in most Linux distros:
+Currently this only builds on Linux (patches accepted to fix that). You will
+also need the following tool which should be available in most Linux distros:
 
-* ghc (a version that can build git HEAD, currently 7.8)
+* ghc (a version that can build git HEAD, currently ghc >= 7.8)
 * The standard build tools needed to build ghc.
 * gcc/g++ or clang/clang++ to build LLVM
 * quilt
@@ -48,3 +48,12 @@ To pull new changes from both GHC and LLVM git just:
 
 which automatically removes some of the stamp files to that running `make`
 again will run a new build and test cycle.
+
+## Versions
+
+GHC git HEAD currently uses the last stable LLVM reslease, version 3.7. However,
+the LLVM project has already branched version 3.8 and LLVM git HEAD is now
+marked as version 3.9.
+
+The master branch of this repo now builds against LLVM version 3.9, but there is
+also an local `llvm-3.8` that builds against LLVM's `release_38` branch.
