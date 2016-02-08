@@ -70,7 +70,7 @@ stamp/llvm-configure : stamp/llvm-update
 	touch $@
 
 stamp/llvm-update : llvm-src/CMakeLists.txt
-	(cd llvm-src && git pull --rebase)
+	(cd llvm-src && git checkout release_38 && git pull --rebase)
 	rm -f stamp/llvm-*
 	touch $@
 
