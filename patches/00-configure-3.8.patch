@@ -2,7 +2,7 @@ Index: ghc-llvm-next/ghc-src/configure.ac
 ===================================================================
 --- ghc-llvm-next.orig/ghc-src/configure.ac
 +++ ghc-llvm-next/ghc-src/configure.ac
-@@ -504,7 +504,7 @@ esac
+@@ -509,7 +509,7 @@
  # tools we are looking for. In the past, GHC supported a number of
  # versions of LLVM simultaneously, but that stopped working around
  # 3.5/3.6 release of LLVM.

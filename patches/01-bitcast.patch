@@ -2,7 +2,7 @@ Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
 ===================================================================
 --- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
 +++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
-@@ -73,7 +73,7 @@ ppLlvmGlobal (LMGlobal var@(LMGlobalVar
+@@ -73,7 +73,7 @@
              Nothing -> empty
  
          rhs = case dat of
@@ -15,7 +15,7 @@ Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
 ===================================================================
 --- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/Types.hs
 +++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
-@@ -175,6 +175,13 @@ instance Outputable LlvmStatic where
+@@ -175,6 +175,13 @@
    ppr (LMSub s1 s2)
        = pprStaticArith s1 s2 (sLit "sub") (sLit "fsub") "LMSub"
  
