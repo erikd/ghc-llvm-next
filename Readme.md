@@ -21,7 +21,7 @@ Representation (IR) language which it then passes through the LLVM `llc` and
 `opt` tools to generate native assembler.
 
 Unfortunately, the LLVM developers do not guaranteed that the IR language will
-remain unchanged across major released. It should also be obvious that the GHC
+remain unchanged across major releases. It should also be obvious that the GHC
 developers should not wait for the actual release of a new LLVM version before
 testing it. This project has therefore been set up to make test the development
 version of GHC against the development version of LLVM.
