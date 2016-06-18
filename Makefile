@@ -41,10 +41,11 @@ stamp/ghc-configure : stamp/ghc-update stamp/llvm-install
 
 stamp/ghc-update : ghc-src/configure.ac
 	if test $(shell quilt applied | grep -c ^patches/) -ge 1 ; then \
-		quilt pop -a ; \
+		quilt pop -a -f ; \
 		fi
-	(cd ghc-src && git reset --hard origin/master && \
-		git pull && git submodule update --init --recursive --rebase)
+	(cd ghc-src && git reset --hard origin/master)
+	(cd ghc-src && git pull --rebase)
+	(cd ghc-src && git submodule update --init --recursive --rebase)
 	quilt push -a
 	touch $@
 
