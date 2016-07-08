@@ -1,23 +1,10 @@
-Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
-===================================================================
---- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
-+++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/PpLlvm.hs
-@@ -73,7 +73,7 @@
-             Nothing -> empty
- 
-         rhs = case dat of
--            Just stat -> ppr stat
-+            Just stat -> pprSpecialStatic stat
-             Nothing   -> ppr (pLower $ getVarType var)
- 
-         -- Position of linkage is different for aliases.
 Index: ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
 ===================================================================
 --- ghc-llvm-next.orig/ghc-src/compiler/llvmGen/Llvm/Types.hs
 +++ ghc-llvm-next/ghc-src/compiler/llvmGen/Llvm/Types.hs
-@@ -175,6 +175,13 @@
-   ppr (LMSub s1 s2)
-       = pprStaticArith s1 s2 (sLit "sub") (sLit "fsub") "LMSub"
+@@ -183,6 +183,13 @@
+ pprSpecialStatic stat = ppr stat
+ 
  
 +
 +pprSpecialStatic :: LlvmStatic -> SDoc
