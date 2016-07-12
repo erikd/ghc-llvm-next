@@ -1,6 +1,6 @@
 
 top_dir = $(shell pwd)
-num_cpus ?= $(shell grep ^processor /proc/cpuinfo | wc -l)
+num_cpus ?= 1
 
 
 
