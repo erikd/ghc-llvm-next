@@ -51,9 +51,8 @@ again will run a new build and test cycle.
 
 ## Versions
 
-GHC git HEAD currently uses the last stable LLVM reslease, version 3.7. However,
-the LLVM project has already branched version 3.8 and LLVM git HEAD is now
+GHC git HEAD currently uses the last stable LLVM reslease, version 3.9. However,
+the LLVM project has already branched version 4.0 and LLVM git HEAD is now
 marked as version 3.9.
 
-The master branch of this repo now builds against LLVM version 3.9, but there is
-also an local `llvm-3.8` that builds against LLVM's `release_38` branch.
+The master branch of this repo now builds against LLVM version 4.0.

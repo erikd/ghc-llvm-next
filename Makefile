@@ -2,18 +2,6 @@
 top_dir = $(shell pwd)
 num_cpus ?= 1
 
-gcc_has_pie = $(shell gcc-6 -O3 -dM -E - < /dev/null | grep -c -i pie)
-
-ifneq ($(gcc_has_pie), 0)
-extra_ghc_conf = \
-    CONF_CC_OPTS_STAGE2=-fno-PIE \
-    CONF_GCC_LINKER_OPTS_STAGE2=-no-pie \
-    CONF_LD_LINKER_OPTS_STAGE2=-no-pie
-else
-extra_ghc_conf =
-endif
-
-
 
 all : stamp/ghc-test
 
@@ -47,8 +35,7 @@ stamp/ghc-configure : stamp/ghc-update stamp/llvm-install
 	sed s'/#BuildFlavour = quick-llvm/BuildFlavour = quick-llvm/' ghc-src/mk/build.mk.sample > ghc-src/mk/build.mk
 	(cd ghc-src && perl boot && ./configure \
 			--with-llc=$(top_dir)/llvm-install/bin/llc \
-			--with-opt=$(top_dir)/llvm-install/bin/opt \
-			$(extra_ghc_conf))
+			--with-opt=$(top_dir)/llvm-install/bin/opt
 	touch $@
 
 stamp/ghc-update : ghc-src/configure.ac
