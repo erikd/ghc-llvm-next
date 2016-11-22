@@ -35,7 +35,7 @@ stamp/ghc-configure : stamp/ghc-update stamp/llvm-install
 	sed s'/#BuildFlavour = quick-llvm/BuildFlavour = quick-llvm/' ghc-src/mk/build.mk.sample > ghc-src/mk/build.mk
 	(cd ghc-src && perl boot && ./configure \
 			--with-llc=$(top_dir)/llvm-install/bin/llc \
-			--with-opt=$(top_dir)/llvm-install/bin/opt
+			--with-opt=$(top_dir)/llvm-install/bin/opt)
 	touch $@
 
 stamp/ghc-update : ghc-src/configure.ac
