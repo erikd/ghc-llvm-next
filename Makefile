@@ -13,7 +13,7 @@ update : llvm-src/CMakeLists.txt ghc-src/configure.ac
 
 clean :
 	(cd ghc-src && make clean)
-	rm -rf llvm-build/*
+	rm -rf llvm-build/* llvm-install/*
 	rm -f stamp/*
 
 git-gc :
