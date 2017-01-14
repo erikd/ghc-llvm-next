@@ -1,0 +1,73 @@
+From ea6ef092f3f0d8203009f90ae6438172289c92f3 Mon Sep 17 00:00:00 2001
+From: Erik de Castro Lopo <erikd@mega-nerd.com>
+Date: Sat, 14 Jan 2017 13:01:16 +1100
+Subject: [PATCH 2/2] LLVM: Fix tbaa metadata codegen for LLVM 4.0
+
+Two changes needed:
+
+* Before llvm 4.0, there was a `topN` node in the TBAA heiarchy and
+  that node was allowed to be referenced by LLVM instruction statements.
+  In 4.0 that is no longer allowed, so we introduce a new element `rootN`
+  and make `topN` a child of that.
+
+* Previously the root TBAA node was rendered as "!0 = !{!"root", null}".
+  With LLVM 4.0 that needs to be "!0 = !{!"root"}".
+---
+ compiler/llvmGen/LlvmCodeGen.hs      | 13 +++++++------
+ compiler/llvmGen/LlvmCodeGen/Regs.hs |  9 +++++++--
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/ghc-src/compiler/llvmGen/LlvmCodeGen.hs b/ghc-src/compiler/llvmGen/LlvmCodeGen.hs
+index c240d09965..5596d599c4 100644
+--- a/ghc-src/compiler/llvmGen/LlvmCodeGen.hs
++++ b/ghc-src/compiler/llvmGen/LlvmCodeGen.hs
+@@ -188,12 +188,13 @@ cmmMetaLlvmPrelude = do
+     setUniqMeta uniq tbaaId
+     parentId <- maybe (return Nothing) getUniqMeta parent
+     -- Build definition
+-    return $ MetaUnnamed tbaaId $ MetaStruct
+-        [ MetaStr name
+-        , case parentId of
+-          Just p  -> MetaNode p
+-          Nothing -> MetaVar $ LMLitVar $ LMNullLit i8Ptr
+-        ]
++    return $ MetaUnnamed tbaaId $ MetaStruct $
++          case parentId of
++              Just p  -> [ MetaStr name, MetaNode p ]
++              -- As of LLVM 4.0, a node without parents should be rendered as
++              -- just a name on its own. Previously `null` was accepted as the
++              -- name.
++              Nothing -> [ MetaStr name ]
+   renderLlvm $ ppLlvmMetas metas
+ 
+ -- -----------------------------------------------------------------------------
+diff --git a/ghc-src/compiler/llvmGen/LlvmCodeGen/Regs.hs b/ghc-src/compiler/llvmGen/LlvmCodeGen/Regs.hs
+index 186eda31a3..e09ab8026c 100644
+--- a/ghc-src/compiler/llvmGen/LlvmCodeGen/Regs.hs
++++ b/ghc-src/compiler/llvmGen/LlvmCodeGen/Regs.hs
+@@ -97,7 +97,8 @@ alwaysLive = [BaseReg, Sp, Hp, SpLim, HpLim, node]
+ -- | STG Type Based Alias Analysis hierarchy
+ stgTBAA :: [(Unique, LMString, Maybe Unique)]
+ stgTBAA
+-  = [ (topN,   fsLit "top",   Nothing)
++  = [ (rootN,  fsLit "root",   Nothing)
++    , (topN,   fsLit "top",   Just rootN)
+     , (stackN, fsLit "stack", Just topN)
+     , (heapN,  fsLit "heap",  Just topN)
+     , (rxN,    fsLit "rx",    Just heapN)
+@@ -109,7 +110,11 @@ stgTBAA
+     ]
+ 
+ -- | Id values
+-topN, stackN, heapN, rxN, baseN :: Unique
++-- The `rootN` node is the root (there can be more than one) of the TBAA
++-- hierarchy and as of LLVM 4.0 should *only* be referenced by other nodes. It
++-- should never occur in any LLVM instruction statement.
++rootN, topN, stackN, heapN, rxN, baseN :: Unique
++rootN  = getUnique (fsLit "LlvmCodeGen.Regs.rootN")
+ topN   = getUnique (fsLit "LlvmCodeGen.Regs.topN")
+ stackN = getUnique (fsLit "LlvmCodeGen.Regs.stackN")
+ heapN  = getUnique (fsLit "LlvmCodeGen.Regs.heapN")
+-- 
+2.11.0
+

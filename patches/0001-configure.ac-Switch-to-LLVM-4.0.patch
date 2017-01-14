@@ -1,7 +1,13 @@
-Index: ghc-llvm-next/ghc-src/configure.ac
-===================================================================
---- ghc-llvm-next.orig/ghc-src/configure.ac
-+++ ghc-llvm-next/ghc-src/configure.ac
+From 0981dab4254a0f68ea81b68af182e2c58d1b09d7 Mon Sep 17 00:00:00 2001
+From: Erik de Castro Lopo <erikd@mega-nerd.com>
+Date: Sat, 14 Jan 2017 13:00:41 +1100
+Subject: [PATCH 1/2] configure.ac: Switch to LLVM 4.0
+
+
+diff --git a/ghc-src/configure.ac b/ghc-src/configure.ac
+index 7dcde099ee..1a2307e455 100644
+--- a/ghc-src/configure.ac
++++ b/ghc-src/configure.ac
 @@ -563,7 +563,7 @@ esac
  # tools we are looking for. In the past, GHC supported a number of
  # versions of LLVM simultaneously, but that stopped working around
@@ -11,3 +17,6 @@ Index: ghc-llvm-next/ghc-src/configure.ac
  AC_SUBST([LlvmVersion])
  sUPPORTED_LLVM_VERSION=$(echo \($LlvmVersion\) | sed 's/\./,/')
  AC_DEFINE_UNQUOTED([sUPPORTED_LLVM_VERSION], ${sUPPORTED_LLVM_VERSION}, [The supported LLVM version number])
+-- 
+2.11.0
+
